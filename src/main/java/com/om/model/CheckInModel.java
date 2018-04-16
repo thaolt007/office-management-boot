@@ -39,6 +39,4 @@ public class CheckInModel {
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
 	}
-	
-	
 }
