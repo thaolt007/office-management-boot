@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class ReportTimesheetModel {
 	private String userName;
+	private int totalTime;
 	private Date timeCheckIn;
 	private Date timeCheckOut;
 	
@@ -24,5 +25,11 @@ public class ReportTimesheetModel {
 	}
 	public void setTimeCheckOut(Date timeCheckOut) {
 		this.timeCheckOut = timeCheckOut;
+	}
+	public int getTotalTime() {
+		return totalTime;
+	}
+	public void setTotalTime(int totalTime) {
+		this.totalTime = totalTime;
 	}
 }

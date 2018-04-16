@@ -2,9 +2,10 @@ package com.om.model;
 
 import java.util.Date;
 
-public class CheckInModel {
+public class CheckModel {
 	private int id;
 	private String note;
+	private int checkType;
 	private Date dateCreated;
 	private Date dateModified;
 	private int userId;
@@ -29,6 +30,12 @@ public class CheckInModel {
 	}
 	public Date getDateCreated() {
 		return dateCreated;
+	}
+	public int getCheckType() {
+		return checkType;
+	}
+	public void setCheckType(int checkType) {
+		this.checkType = checkType;
 	}
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
