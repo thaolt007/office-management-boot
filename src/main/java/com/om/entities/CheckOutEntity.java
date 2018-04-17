@@ -27,9 +27,6 @@ public class CheckOutEntity implements Serializable{
 	@Column(name = "check_type")
 	private int type;
 	
-	@Column(name = "user_id")
-	private int userId;
-	
 	@Column(name = "created_date", nullable = false)
 	private Date createdDate;
 	
@@ -41,13 +38,12 @@ public class CheckOutEntity implements Serializable{
 	private UserEntity ownerCheckOut;
 
 	
-	public CheckOutEntity(int id, String note, int type, int userId,
+	public CheckOutEntity(int id, String note, int type,
 			Date createdDate, Date modifiedDate, UserEntity ownerCheckOut) {
 		super();
 		this.id = id;
 		this.note = note;
 		this.type = type;
-		this.userId = userId;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 		this.ownerCheckOut = ownerCheckOut;
@@ -75,14 +71,6 @@ public class CheckOutEntity implements Serializable{
 
 	public void setType(int type) {
 		this.type = type;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 
 	public Date getCreatedDate() {

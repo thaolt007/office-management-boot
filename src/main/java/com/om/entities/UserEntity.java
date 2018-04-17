@@ -30,10 +30,10 @@ public class UserEntity implements Serializable{
 	private List<CheckInEntity> checkin;
 	
 	@OneToMany(mappedBy = "ownerCheckOut")
-	private List<CheckInEntity> checkout;
+	private List<CheckOutEntity> checkout;
 
 	public UserEntity(int id, String userName, String password,
-			List<CheckInEntity> checkin, List<CheckInEntity> checkout) {
+			List<CheckInEntity> checkin, List<CheckOutEntity> checkout) {
 		super();
 		this.id = id;
 		this.userName = userName;

@@ -2,10 +2,18 @@ package com.om.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+//@Entity(name="reportTimesheetModel")
 public class ReportTimesheetModel {
+//	@Column
 	private String userName;
-	private int totalTime;
+//	@Column
+	private int totalMinute;
+//	@Column
 	private Date timeCheckIn;
+//	@Column
 	private Date timeCheckOut;
 	
 	public String getUserName() {
@@ -26,10 +34,10 @@ public class ReportTimesheetModel {
 	public void setTimeCheckOut(Date timeCheckOut) {
 		this.timeCheckOut = timeCheckOut;
 	}
-	public int getTotalTime() {
-		return totalTime;
+	public int getTotalMinute() {
+		return totalMinute;
 	}
-	public void setTotalTime(int totalTime) {
-		this.totalTime = totalTime;
+	public void setTotalMinute(int totalMinute) {
+		this.totalMinute = totalMinute;
 	}
 }

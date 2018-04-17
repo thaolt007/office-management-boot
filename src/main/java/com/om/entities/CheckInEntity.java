@@ -28,9 +28,6 @@ public class CheckInEntity implements Serializable{
 	@Column(name = "check_type")
 	private int type;
 	
-	@Column(name = "user_id")
-	private int userId;
-	
 	@Column(name = "created_date", nullable = false)
 	private Date createdDate;
 	
@@ -39,25 +36,17 @@ public class CheckInEntity implements Serializable{
 	
 	@ManyToOne()
 	@JoinColumn(name="user_id")
-	
 	private UserEntity ownerCheckIn;
 	
-	public CheckInEntity(int id, String note, int type, int userId,
+	public CheckInEntity(int id, String note, int type,
 			Date createdDate, Date modifiedDate, UserEntity ownerCheckIn) {
 		super();
 		this.id = id;
 		this.note = note;
 		this.type = type;
-		this.userId = userId;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 		this.ownerCheckIn = ownerCheckIn;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 	public int getType() {
 		return type;
