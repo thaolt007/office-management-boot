@@ -1,4 +1,4 @@
-package com.om.service;
+package com.om.services;
 
 public interface ICheckOutService {
 

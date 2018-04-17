@@ -1,4 +1,4 @@
-package com.om.entity;
+package com.om.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "om_user")
 public class UserEntity implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false)
@@ -26,12 +26,22 @@ public class UserEntity implements Serializable{
 	@Column(nullable = false, length = 50)
 	private String password;
 	
-	@OneToMany(mappedBy = "owner")
-	private List<CheckEntity> check;
+	@OneToMany(mappedBy = "ownerCheckIn")
+	private List<CheckInEntity> checkin;
 	
-//	@OneToMany(mappedBy = "owner")
-//	private List<CheckEntity> check;
-	
+	@OneToMany(mappedBy = "ownerCheckOut")
+	private List<CheckInEntity> checkout;
+
+	public UserEntity(int id, String userName, String password,
+			List<CheckInEntity> checkin, List<CheckInEntity> checkout) {
+		super();
+		this.id = id;
+		this.userName = userName;
+		this.password = password;
+		this.checkin = checkin;
+		this.checkout = checkout;
+	}
+
 	public int getId() {
 		return id;
 	}
