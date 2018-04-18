@@ -1,5 +1,10 @@
 package com.om.services;
 
-public interface ICheckInService {
+import com.om.entities.CheckInEntity;
 
+import java.util.Date;
+import java.util.List;
+
+public interface ICheckInService {
+    List<CheckInEntity> findCheckInByCreatedDate(Date date);
 }

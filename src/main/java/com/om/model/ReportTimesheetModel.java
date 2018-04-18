@@ -5,17 +5,19 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-//@Entity(name="reportTimesheetModel")
 public class ReportTimesheetModel {
-//	@Column
 	private String userName;
-//	@Column
 	private int totalMinute;
-//	@Column
 	private Date timeCheckIn;
-//	@Column
 	private Date timeCheckOut;
-	
+
+	public ReportTimesheetModel(String userName, int totalMinute, Date timeCheckIn, Date timeCheckOut) {
+		this.userName = userName;
+		this.totalMinute = totalMinute;
+		this.timeCheckIn = timeCheckIn;
+		this.timeCheckOut = timeCheckOut;
+	}
+
 	public String getUserName() {
 		return userName;
 	}

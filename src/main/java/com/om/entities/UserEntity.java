@@ -1,5 +1,7 @@
 package com.om.entities;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "om_user")
+@Data
 public class UserEntity implements Serializable{
 	private static final long serialVersionUID = 1L; 
 	@Id
@@ -20,26 +23,24 @@ public class UserEntity implements Serializable{
 	@Column(nullable = false)
 	private int id;
 	
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 50, name = "om_username")
 	private String userName;
-	
-	@Column(nullable = false, length = 50)
-	private String password;
-	
-	@OneToMany(mappedBy = "ownerCheckIn")
-	private List<CheckInEntity> checkin;
-	
-	@OneToMany(mappedBy = "ownerCheckOut")
-	private List<CheckOutEntity> checkout;
 
+	@Column(nullable = false, length = 50, name = "om_password")
+	private String password;
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+
+	public UserEntity() {}
 	public UserEntity(int id, String userName, String password,
 			List<CheckInEntity> checkin, List<CheckOutEntity> checkout) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.password = password;
-		this.checkin = checkin;
-		this.checkout = checkout;
 	}
 
 	public int getId() {

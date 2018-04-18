@@ -1,5 +1,7 @@
 package com.om.services;
 
-public interface ICheckOutService {
+import com.om.entities.CheckOutEntity;
 
+public interface ICheckOutService {
+    CheckOutEntity findCheckOutById(int id);
 }
