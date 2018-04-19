@@ -1,11 +1,1 @@
 SELECT TIMESTAMPDIFF(second,'2009-05-18 11:45:42','2009-05-20 15:16:39');
-
-
-select u.om_username, timestampdiff(minute, cin.modified_date, cout.modified_date),
-cin.modified_date, cout.modified_date from om_user u
- inner join 
-(select * from om_checkin cin where cast(cin.modified_date as date) = curdate()) cin
- on u.id = cin.user_id 
-left join 
-(select * from om_checkout cout where cast(cout.modified_date as date) = curdate()) cout 
-on u.id = cout.user_id;

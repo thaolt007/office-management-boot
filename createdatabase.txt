@@ -1,38 +1,33 @@
 create database office_management;
 use office_management;
-create table om_user (
-	id int primary key,
-    om_username nvarchar(50) not null,
-    om_password nvarchar(50) not null
-);
-create table om_checkin(
-	id int primary key,
-    note nvarchar(255),
-    created_date datetime not null,
-    modified_date datetime not null,
-    user_id int not null,
-    foreign key(user_id) references om_user(id)
-);
-create table om_checkout(
-	id int primary key,
-    note nvarchar(255),
-    created_date datetime not null,
-    modified_date datetime not null,
-    user_id int not null,
-    foreign key(user_id) references om_user(id)
-);
-
-CREATE TABLE `om_report` (
+CREATE TABLE `om_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `checkin_id` int(11) NOT NULL,
+  `om_username` varchar(50) NOT NULL,
+  `om_password` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `om_checkin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `note` varchar(255) DEFAULT NULL,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
   `checkout_id` int(11) DEFAULT NULL,
-  `work_in_minute` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `checkout_id_idx` (`checkout_id`),
-  KEY `checkin_id_idx` (`checkin_id`),
-  KEY `user_id_idx` (`user_id`),
-  CONSTRAINT `checkin_id` FOREIGN KEY (`checkin_id`) REFERENCES `om_checkin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `checkout_id` FOREIGN KEY (`checkout_id`) REFERENCES `om_checkout` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `om_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `om_checkin_ibfk_1` (`owner_user_id`),
+  KEY `om_checkin_ibfk_2_idx` (`checkout_id`),
+  CONSTRAINT `om_checkin_ibfk_1` FOREIGN KEY (`owner_user_id`) REFERENCES `om_user` (`id`),
+  CONSTRAINT `om_checkin_ibfk_2` FOREIGN KEY (`checkout_id`) REFERENCES `om_checkout` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `om_checkout` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `note` varchar(255) DEFAULT NULL,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `om_checkout_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `om_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;

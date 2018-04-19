@@ -27,10 +27,19 @@ public class CheckInEntity implements Serializable {
 	@Column(name = "modified_date", nullable = false)
 	private Date modifiedDate;
 
-//	@Column(name = "checkout_id", nullable = false)
-//	private int checkOutId;
+	@OneToOne
+	@JoinColumn(name = "checkout_id")
+	private CheckOutEntity checkOut;
 
-//	@ManyToOne(targetEntity = UserEntity.class)
+	public CheckOutEntity getCheckOut() {
+		return checkOut;
+	}
+
+	public void setCheckOut(CheckOutEntity checkOut) {
+		this.checkOut = checkOut;
+	}
+
+	//	@ManyToOne(targetEntity = UserEntity.class)
 	@ManyToOne()
 	@JoinColumn(name = "owner_user_id")
 	private UserEntity ownerUser;

@@ -31,6 +31,18 @@ public class CheckOutEntity implements Serializable{
 	@JoinColumn(name = "user_id")
 	private UserEntity ownerUser;
 
+	@OneToOne(mappedBy = "checkOut")
+	private CheckInEntity checkIn;
+
+
+	public CheckInEntity getCheckIn() {
+		return checkIn;
+	}
+
+	public void setCheckIn(CheckInEntity checkIn) {
+		this.checkIn = checkIn;
+	}
+
 	public UserEntity getOwnerUser() {
 		return ownerUser;
 	}

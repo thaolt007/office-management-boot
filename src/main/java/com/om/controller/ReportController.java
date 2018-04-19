@@ -68,20 +68,10 @@ public class ReportController {
 			reportTimesheet.setCheckIn(checkin);
 
 			//check out
-			boolean hasCheckOut = false;
-			List<CheckOutEntity> listCheckOut = iUserService.findUserById(checkin.getOwnerUser().getId()).getListCheckOut();
-			for (CheckOutEntity checkout : listCheckOut) {
-				Date d = checkout.getCreatedDate();
-				int oneDayMilliseconds = 60*60*24*1000;
-				if( d.getTime() >= date.getTime() && d.getTime() <= (date.getTime() + oneDayMilliseconds)) {
-					reportTimesheet.setCheckOut(checkout);
-					hasCheckOut = true;
-					break;
-				}
-			}
+			reportTimesheet.setCheckOut(checkin.getCheckOut());
 
 			//total minute
-			if(hasCheckOut) {
+			if(checkin.getCheckOut() != null) {
 				Date start = checkin.getCreatedDate();
 				Date end = reportTimesheet.getCheckOut().getCreatedDate();
 				reportTimesheet.setTotalMinute( (end.getTime() - start.getTime()) / (60*1000));
