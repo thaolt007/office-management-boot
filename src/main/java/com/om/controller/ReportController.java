@@ -52,50 +52,45 @@ public class ReportController {
 		Date date = new Date("2018/04/17");
 		List<ReportTimesheetModel> listReport = new ArrayList<ReportTimesheetModel>();
 
-		List<UserEntity> listUser = new ArrayList<>();
-		listUser = (List<UserEntity>) iUserRepo.findAll();
 
-		List<ReportTimesheetModel> listReportTimesheetModel = new ArrayList<>();
+		List<ReportTimesheetModel> listReportTimesheet= new ArrayList<>();
 
-		for(UserEntity user : listUser) {
-			ReportTimesheetModel reportTimesheetModel = new ReportTimesheetModel();
+		List<CheckInEntity> listCheckIn = new ArrayList<>();
+		listCheckIn = iCheckInService.findCheckInByCreatedDate(date);
+
+		for(CheckInEntity checkin : listCheckIn) {
+			ReportTimesheetModel reportTimesheet = new ReportTimesheetModel();
 
 			//user name
-			reportTimesheetModel.setUserName(user.getUserName());
+			reportTimesheet.setUserName(checkin.getOwnerUser().getUserName());
 
 			//check in
-			List<CheckInEntity> listCheckIn = (List<CheckInEntity>) user.getListCheckIn();
-			for (CheckInEntity checkin : listCheckIn) {
-				Date d = checkin.getCreatedDate();
-				int oneDayMilliseconds = 60*60*24*1000;
-				if( d.getTime() >= date.getTime() && d.getTime() <= (date.getTime() + oneDayMilliseconds)) {
-					reportTimesheetModel.setCheckIn(checkin);
-					break;
-				}
-			}
+			reportTimesheet.setCheckIn(checkin);
 
 			//check out
-			List<CheckOutEntity> listCheckOut = (List<CheckOutEntity>) user.getListCheckOut();
+			boolean hasCheckOut = false;
+			List<CheckOutEntity> listCheckOut = iUserService.findUserById(checkin.getOwnerUser().getId()).getListCheckOut();
 			for (CheckOutEntity checkout : listCheckOut) {
 				Date d = checkout.getCreatedDate();
 				int oneDayMilliseconds = 60*60*24*1000;
 				if( d.getTime() >= date.getTime() && d.getTime() <= (date.getTime() + oneDayMilliseconds)) {
-					reportTimesheetModel.setCheckOut(checkout);
+					reportTimesheet.setCheckOut(checkout);
+					hasCheckOut = true;
 					break;
 				}
 			}
 
 			//total minute
-			if(reportTimesheetModel.getCheckIn() != null && reportTimesheetModel.getCheckOut() != null) {
-				Date start = reportTimesheetModel.getCheckIn().getCreatedDate();
-				Date end = reportTimesheetModel.getCheckOut().getCreatedDate();
-				reportTimesheetModel.setTotalMinute( (end.getTime() - start.getTime()) / (60*1000));
+			if(hasCheckOut) {
+				Date start = checkin.getCreatedDate();
+				Date end = reportTimesheet.getCheckOut().getCreatedDate();
+				reportTimesheet.setTotalMinute( (end.getTime() - start.getTime()) / (60*1000));
 			}
 
-			listReportTimesheetModel.add(reportTimesheetModel);
+			listReportTimesheet.add(reportTimesheet);
 		}
 
-		return listReportTimesheetModel;
+		return listReportTimesheet;
 	}
 
 	@GetMapping("detail")
