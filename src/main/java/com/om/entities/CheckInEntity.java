@@ -29,6 +29,7 @@ public class CheckInEntity implements Serializable {
 
 	@OneToOne
 	@JoinColumn(name = "checkout_id")
+	@JsonIgnore
 	private CheckOutEntity checkOut;
 
 	public CheckOutEntity getCheckOut() {

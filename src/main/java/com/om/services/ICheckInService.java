@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ICheckInService {
     List<CheckInEntity> findCheckInByCreatedDate(Date date);
+    List<CheckInEntity> findAllCheckIn();
+    void saveCheckIn(CheckInEntity checkin);
 }

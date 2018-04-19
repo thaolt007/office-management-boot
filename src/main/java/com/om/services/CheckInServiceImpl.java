@@ -19,5 +19,17 @@ public class CheckInServiceImpl implements ICheckInService{
         Date todayMorning = DateUtils.truncate(date, Calendar.DATE);
         Date todayEvening = DateUtils.addSeconds(DateUtils.addMinutes(DateUtils.addHours(todayMorning, 23), 59), 59);
         return (List<CheckInEntity>) iCheckInRepo.findByCreatedDate(todayMorning, todayEvening);
-    };
+    }
+
+    @Override
+    public List<CheckInEntity> findAllCheckIn() {
+        return (List<CheckInEntity>) iCheckInRepo.findAll();
+    }
+
+    @Override
+    public void saveCheckIn(CheckInEntity checkin) {
+        iCheckInRepo.save(checkin);
+    }
+
+
 }

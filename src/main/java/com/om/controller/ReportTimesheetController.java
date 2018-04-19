@@ -22,15 +22,15 @@ import com.om.services.*;
 import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.om.model.ReportTimesheetModel;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value={"/api/report"})
-public class ReportController {
+public class ReportTimesheetController {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ICheckOutRepo.class);
 
 	@Autowired
@@ -48,16 +48,31 @@ public class ReportController {
 
 	@GetMapping(value={"", "timesheet"})
 	public List<ReportTimesheetModel> reportTimeSheetByDate() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date date = new Date("2018/04/17");
-		List<ReportTimesheetModel> listReport = new ArrayList<ReportTimesheetModel>();
 
+		List<CheckInEntity> listCheckIn = new ArrayList<>();
+		listCheckIn = iCheckInService.findAllCheckIn();
 
-		List<ReportTimesheetModel> listReportTimesheet= new ArrayList<>();
+		List<ReportTimesheetModel> listReportTimesheet= getListReportTimesheet(listCheckIn);
+
+		return listReportTimesheet;
+	}
+
+	@GetMapping(value = "timesheet/get")
+	public List<ReportTimesheetModel> getReportByDate(@RequestParam("date") Date date) {
+//		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//		date = new Date("2018/04/17");
 
 		List<CheckInEntity> listCheckIn = new ArrayList<>();
 		listCheckIn = iCheckInService.findCheckInByCreatedDate(date);
 
+		List<ReportTimesheetModel> listReportTimesheet= getListReportTimesheet(listCheckIn);
+
+		return listReportTimesheet;
+	}
+
+	List<ReportTimesheetModel> getListReportTimesheet(List<CheckInEntity> listCheckIn) {
+
+		List<ReportTimesheetModel> listReportTimesheet= new ArrayList<>();
 		for(CheckInEntity checkin : listCheckIn) {
 			ReportTimesheetModel reportTimesheet = new ReportTimesheetModel();
 
@@ -81,16 +96,5 @@ public class ReportController {
 		}
 
 		return listReportTimesheet;
-	}
-
-	@GetMapping("detail")
-	public String getReportDetail() {
-		return "report detail";
-	}
-
-	@GetMapping("user")
-	public List<UserEntity> getAllUser() {
-
-		return (List<UserEntity>) iUserRepo.findAll();
 	}
 }
