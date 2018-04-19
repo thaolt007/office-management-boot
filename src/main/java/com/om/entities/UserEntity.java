@@ -1,17 +1,12 @@
 package com.om.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "om_user")
@@ -28,6 +23,22 @@ public class UserEntity implements Serializable{
 
 	@Column(nullable = false, length = 50, name = "om_password")
 	private String password;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerUser")
+	@JsonIgnore
+	private List<CheckInEntity> listCheckIn;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerUser")
+	@JsonIgnore
+	private List<CheckOutEntity> listCheckOut;
+
+	public List<CheckOutEntity> getListCheckOut() {
+		return listCheckOut;
+	}
+
+	public void setListCheckOut(List<CheckOutEntity> listCheckOut) {
+		this.listCheckOut = listCheckOut;
+	}
 
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
@@ -66,6 +77,12 @@ public class UserEntity implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
+	public List<CheckInEntity> getListCheckIn() {
+		return listCheckIn;
+	}
+
+	public void setListCheckIn(List<CheckInEntity> listCheckIn) {
+		this.listCheckIn = listCheckIn;
+	}
 }

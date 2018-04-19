@@ -26,8 +26,18 @@ public class CheckOutEntity implements Serializable{
 	@Column(name = "modified_date", nullable = false)
 	private Date modifiedDate;
 
-	@Column(name = "user_id", nullable = false)
-	private int user_id;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private UserEntity ownerUser;
+
+	public UserEntity getOwnerUser() {
+		return ownerUser;
+	}
+
+	public void setOwnerUser(UserEntity ownerUser) {
+		this.ownerUser = ownerUser;
+	}
 
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
@@ -63,13 +73,5 @@ public class CheckOutEntity implements Serializable{
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
-	}
-
-	public int getUser_id() {
-		return user_id;
-	}
-
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
 	}
 }

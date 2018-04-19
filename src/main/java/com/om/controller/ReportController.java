@@ -1,5 +1,6 @@
 package com.om.controller;
 
+import java.io.Console;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.om.model.ReportTimesheetModel;
 
 @RestController
-@RequestMapping(value={"/api/report", "/api/report/timesheet"})
+@RequestMapping(value={"/api/report"})
 public class ReportController {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ICheckOutRepo.class);
 
@@ -45,36 +46,66 @@ public class ReportController {
 	@Autowired
 	private IUserService iUserService;
 
-	@GetMapping(value="")
-	public List<ReportTimesheetModel> reportTimeSheet() {
+	@GetMapping(value={"", "timesheet"})
+	public List<ReportTimesheetModel> reportTimeSheetByDate() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date("2018/04/17");
-		List<CheckInEntity> listCheckIn = iCheckInService.findCheckInByCreatedDate(date);
 		List<ReportTimesheetModel> listReport = new ArrayList<ReportTimesheetModel>();
-		for(CheckInEntity checkin : listCheckIn) {
 
-			ReportTimesheetModel reportModel = new ReportTimesheetModel();
-			reportModel.setCheckIn(checkin);
+		List<UserEntity> listUser = new ArrayList<>();
+		listUser = (List<UserEntity>) iUserRepo.findAll();
 
-			String userName = iUserService.findUserById(checkin.getId()).getUserName();
-			reportModel.setUserName(userName);
+		List<ReportTimesheetModel> listReportTimesheetModel = new ArrayList<>();
 
-			CheckOutEntity checkout = iCheckOutService.findCheckOutById(checkin.getId());
-			reportModel.setCheckOut(checkout);
-			if(checkout != null) {
-				long totalMinute = (checkout.getCreatedDate().getTime() - checkin.getCreatedDate().getTime()) / (60 * 60 * 1000);
-				reportModel.setTotalMinute(totalMinute);
-			}else {
-				reportModel.setTotalMinute(0L);
+		for(UserEntity user : listUser) {
+			ReportTimesheetModel reportTimesheetModel = new ReportTimesheetModel();
+
+			//user name
+			reportTimesheetModel.setUserName(user.getUserName());
+
+			//check in
+			List<CheckInEntity> listCheckIn = (List<CheckInEntity>) user.getListCheckIn();
+			for (CheckInEntity checkin : listCheckIn) {
+				Date d = checkin.getCreatedDate();
+				int oneDayMilliseconds = 60*60*24*1000;
+				if( d.getTime() >= date.getTime() && d.getTime() <= (date.getTime() + oneDayMilliseconds)) {
+					reportTimesheetModel.setCheckIn(checkin);
+					break;
+				}
 			}
 
-			listReport.add(reportModel);
+			//check out
+			List<CheckOutEntity> listCheckOut = (List<CheckOutEntity>) user.getListCheckOut();
+			for (CheckOutEntity checkout : listCheckOut) {
+				Date d = checkout.getCreatedDate();
+				int oneDayMilliseconds = 60*60*24*1000;
+				if( d.getTime() >= date.getTime() && d.getTime() <= (date.getTime() + oneDayMilliseconds)) {
+					reportTimesheetModel.setCheckOut(checkout);
+					break;
+				}
+			}
+
+			//total minute
+			if(reportTimesheetModel.getCheckIn() != null && reportTimesheetModel.getCheckOut() != null) {
+				Date start = reportTimesheetModel.getCheckIn().getCreatedDate();
+				Date end = reportTimesheetModel.getCheckOut().getCreatedDate();
+				reportTimesheetModel.setTotalMinute( (end.getTime() - start.getTime()) / (60*1000));
+			}
+
+			listReportTimesheetModel.add(reportTimesheetModel);
 		}
-		return listReport;
+
+		return listReportTimesheetModel;
 	}
 
 	@GetMapping("detail")
-	public String ReportDetail() {
+	public String getReportDetail() {
 		return "report detail";
+	}
+
+	@GetMapping("user")
+	public List<UserEntity> getAllUser() {
+
+		return (List<UserEntity>) iUserRepo.findAll();
 	}
 }
