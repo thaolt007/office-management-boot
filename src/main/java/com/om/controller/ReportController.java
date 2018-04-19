@@ -2,6 +2,7 @@ package com.om.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.om.entities.CheckInEntity;
 import com.om.entities.CheckOutEntity;
 import com.om.entities.ReportTimesheetEntity;
 import com.om.entities.UserEntity;
+import com.om.model.CheckOutModel;
 import com.om.model.UserModel;
 import com.om.repositories.ICheckInRepo;
 import com.om.repositories.ICheckOutRepo;
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.om.model.ReportTimesheetModel;
 
 @RestController
-@RequestMapping(value="/api/report")
+@RequestMapping(value={"/api/report", "/api/report/timesheet"})
 public class ReportController {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ICheckOutRepo.class);
 
@@ -43,17 +45,36 @@ public class ReportController {
 	@Autowired
 	private IUserService iUserService;
 
-	@GetMapping(value="/")
+	@GetMapping(value="")
 	public List<ReportTimesheetModel> reportTimeSheet() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date("2018/04/17");
-//		return iUserService.findUserById(1);
 		List<CheckInEntity> listCheckIn = iCheckInService.findCheckInByCreatedDate(date);
+		List<ReportTimesheetModel> listReport = new ArrayList<ReportTimesheetModel>();
 		for(CheckInEntity checkin : listCheckIn) {
-			String name = iUserService.findUserById(checkin.getId()).getUserName();
-//			int totalMinute =
-			Date checkout = iCheckOutService.findCheckOutById(checkin.getId()).getCreatedDate();
+
+			ReportTimesheetModel reportModel = new ReportTimesheetModel();
+			reportModel.setCheckIn(checkin);
+
+			String userName = iUserService.findUserById(checkin.getId()).getUserName();
+			reportModel.setUserName(userName);
+
+			CheckOutEntity checkout = iCheckOutService.findCheckOutById(checkin.getId());
+			reportModel.setCheckOut(checkout);
+			if(checkout != null) {
+				long totalMinute = (checkout.getCreatedDate().getTime() - checkin.getCreatedDate().getTime()) / (60 * 60 * 1000);
+				reportModel.setTotalMinute(totalMinute);
+			}else {
+				reportModel.setTotalMinute(0L);
+			}
+
+			listReport.add(reportModel);
 		}
-		return null;
+		return listReport;
+	}
+
+	@GetMapping("detail")
+	public String ReportDetail() {
+		return "report detail";
 	}
 }

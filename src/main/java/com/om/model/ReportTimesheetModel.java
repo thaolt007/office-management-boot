@@ -1,5 +1,8 @@
 package com.om.model;
 
+import com.om.entities.CheckInEntity;
+import com.om.entities.CheckOutEntity;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -7,39 +10,40 @@ import javax.persistence.Entity;
 
 public class ReportTimesheetModel {
 	private String userName;
-	private int totalMinute;
-	private Date timeCheckIn;
-	private Date timeCheckOut;
+	private long totalMinute;
+	private CheckInEntity checkIn;
+	private CheckOutEntity checkOut;
 
-	public ReportTimesheetModel(String userName, int totalMinute, Date timeCheckIn, Date timeCheckOut) {
-		this.userName = userName;
-		this.totalMinute = totalMinute;
-		this.timeCheckIn = timeCheckIn;
-		this.timeCheckOut = timeCheckOut;
-	}
-
+	public ReportTimesheetModel() {}
 	public String getUserName() {
 		return userName;
 	}
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public Date getTimeCheckIn() {
-		return timeCheckIn;
-	}
-	public void setTimeCheckIn(Date timeCheckIn) {
-		this.timeCheckIn = timeCheckIn;
-	}
-	public Date getTimeCheckOut() {
-		return timeCheckOut;
-	}
-	public void setTimeCheckOut(Date timeCheckOut) {
-		this.timeCheckOut = timeCheckOut;
-	}
-	public int getTotalMinute() {
+
+	public long getTotalMinute() {
 		return totalMinute;
 	}
-	public void setTotalMinute(int totalMinute) {
+
+	public void setTotalMinute(long totalMinute) {
 		this.totalMinute = totalMinute;
+	}
+
+	public CheckInEntity getCheckIn() {
+		return checkIn;
+	}
+
+	public void setCheckIn(CheckInEntity checkIn) {
+		this.checkIn = checkIn;
+	}
+
+	public CheckOutEntity getCheckOut() {
+		return checkOut;
+	}
+
+	public void setCheckOut(CheckOutEntity checkOut) {
+		this.checkOut = checkOut;
 	}
 }
