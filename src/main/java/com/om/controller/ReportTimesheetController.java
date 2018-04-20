@@ -34,67 +34,19 @@ public class ReportTimesheetController {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ICheckOutRepo.class);
 
 	@Autowired
-	private ICheckOutRepo iCheckOutRepo;
-	@Autowired
-	private ICheckInRepo iCheckInRepo;
-	@Autowired
-	private ICheckInService iCheckInService;
-	@Autowired
-	private ICheckOutService iCheckOutService;
-	@Autowired
-	private IUserRepo iUserRepo;
-	@Autowired
-	private IUserService iUserService;
+	private IReportTimesheetService iReportTimesheetService;
 
 	@GetMapping(value={"", "timesheet"})
-	public List<ReportTimesheetModel> reportTimeSheetByDate() {
-
-		List<CheckInEntity> listCheckIn = new ArrayList<>();
-		listCheckIn = iCheckInService.findAllCheckIn();
-
-		List<ReportTimesheetModel> listReportTimesheet= getListReportTimesheet(listCheckIn);
-
-		return listReportTimesheet;
+	public List<ReportTimesheetModel> getAllReportTimeSheet() {
+		return iReportTimesheetService.findAllReport();
 	}
 
 	@GetMapping(value = "timesheet/get")
 	public List<ReportTimesheetModel> getReportByDate(@RequestParam("date") Date date) {
 //		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 //		date = new Date("2018/04/17");
-
-		List<CheckInEntity> listCheckIn = new ArrayList<>();
-		listCheckIn = iCheckInService.findCheckInByCreatedDate(date);
-
-		List<ReportTimesheetModel> listReportTimesheet= getListReportTimesheet(listCheckIn);
-
-		return listReportTimesheet;
+		return iReportTimesheetService.findReportByDate(date);
 	}
 
-	List<ReportTimesheetModel> getListReportTimesheet(List<CheckInEntity> listCheckIn) {
 
-		List<ReportTimesheetModel> listReportTimesheet= new ArrayList<>();
-		for(CheckInEntity checkin : listCheckIn) {
-			ReportTimesheetModel reportTimesheet = new ReportTimesheetModel();
-
-			//user name
-			reportTimesheet.setUserName(checkin.getOwnerUser().getUserName());
-
-			//check in
-			reportTimesheet.setCheckIn(checkin);
-
-			//check out
-			reportTimesheet.setCheckOut(checkin.getCheckOut());
-
-			//total minute
-			if(checkin.getCheckOut() != null) {
-				Date start = checkin.getCreatedDate();
-				Date end = reportTimesheet.getCheckOut().getCreatedDate();
-				reportTimesheet.setTotalMinute( (end.getTime() - start.getTime()) / (60*1000));
-			}
-
-			listReportTimesheet.add(reportTimesheet);
-		}
-
-		return listReportTimesheet;
-	}
 }

@@ -8,4 +8,5 @@ import com.om.model.ReportTimesheetModel;
 
 public interface IReportTimesheetService {
 	List<ReportTimesheetModel> findReportByDate(Date date);
+	List<ReportTimesheetModel> findAllReport();
 }

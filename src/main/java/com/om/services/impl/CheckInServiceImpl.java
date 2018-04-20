@@ -1,7 +1,8 @@
-package com.om.services;
+package com.om.services.impl;
 
 import com.om.entities.CheckInEntity;
 import com.om.repositories.ICheckInRepo;
+import com.om.services.ICheckInService;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CheckInServiceImpl implements ICheckInService{
+public class CheckInServiceImpl implements ICheckInService {
     @Autowired
     private ICheckInRepo iCheckInRepo;
 
