@@ -6,6 +6,7 @@ import com.om.model.CheckInModel;
 import com.om.model.UserModel;
 import com.om.repositories.ICheckInRepo;
 import com.om.services.ICheckInService;
+import com.om.services.IUserService;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,11 +29,18 @@ public class CheckInController {
     private ICheckInRepo iCheckInRepo;
     @Autowired
     private ICheckInService iCheckInService;
+    @Autowired
+    private IUserService iUserService;
 
     @PostMapping(value = "submit")
-    public String saveCheckin(@RequestBody CheckInModel checkin) {
-        System.out.println("Checkin post: " + checkin.toString());
-        return "checkin works";
+    public ResponseEntity<CheckInEntity> saveCheckin(@RequestBody CheckInModel checkinModel) {
+        System.out.println("Checkin post: " + checkinModel.toString());
+
+        CheckInEntity checkin = iCheckInService.saveCheckIn(checkinModel);
+        if(checkin == null) {
+            return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.OK);
     }
 
     @PostMapping(value = "check/{id}")
