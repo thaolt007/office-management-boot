@@ -43,6 +43,7 @@ public class CheckInEntity implements Serializable {
 	//	@ManyToOne(targetEntity = UserEntity.class)
 	@ManyToOne()
 	@JoinColumn(name = "owner_user_id")
+	@JsonIgnore
 	private UserEntity ownerUser;
 
 	public UserEntity getOwnerUser() {
@@ -90,5 +91,15 @@ public class CheckInEntity implements Serializable {
 
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	@Override
+	public String toString() {
+		return "CheckInEntity{" +
+				"id=" + id +
+				", note='" + note + '\'' +
+				", createdDate=" + createdDate +
+				", modifiedDate=" + modifiedDate +
+				'}';
 	}
 }

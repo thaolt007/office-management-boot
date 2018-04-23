@@ -14,4 +14,6 @@ import java.util.List;
 public interface ICheckInRepo extends CrudRepository<CheckInEntity, Integer>{
     @Query("select checkin from CheckInEntity checkin where checkin.createdDate between ?1 and ?2")
     List<CheckInEntity> findByCreatedDate(Date dateMorning, Date dateEvening);
+    @Query("select checkin from CheckInEntity checkin where checkin.ownerUser.id = ?1 and checkin.createdDate between ?2 and ?3")
+    CheckInEntity isCheckinDone(int userId, Date dateMorning, Date dateEvening);
 }

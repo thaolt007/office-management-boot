@@ -51,4 +51,15 @@ public class UserModel {
 	public void setCheckOutEntityList(List<CheckOutEntity> checkOutEntityList) {
 		this.checkOutEntityList = checkOutEntityList;
 	}
+
+	@Override
+	public String toString() {
+		return "UserModel{" +
+				"id=" + id +
+				", userName='" + userName + '\'' +
+				", password='" + password + '\'' +
+				", checkInEntityList=" + checkInEntityList +
+				", checkOutEntityList=" + checkOutEntityList +
+				'}';
+	}
 }

@@ -20,8 +20,8 @@ public class ReportDetailController {
     @Autowired
     private IUserService iUserService;
 
-    @PostMapping("detail")
-    public String postReportDetail(@RequestParam("report") ReportTimesheetModel report) {
+    @GetMapping("")
+    public String postReportDetail() {
         return "report detail";
     }
 }

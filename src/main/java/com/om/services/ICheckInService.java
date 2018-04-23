@@ -9,4 +9,5 @@ public interface ICheckInService {
     List<CheckInEntity> findCheckInByCreatedDate(Date date);
     List<CheckInEntity> findAllCheckIn();
     void saveCheckIn(CheckInEntity checkin);
+    CheckInEntity isCheckinDone(int userId, Date date);
 }

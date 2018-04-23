@@ -32,5 +32,12 @@ public class CheckInServiceImpl implements ICheckInService {
         iCheckInRepo.save(checkin);
     }
 
+    @Override
+    public CheckInEntity isCheckinDone(int userId, Date date) {
+        Date todayMorning = DateUtils.truncate(date, Calendar.DATE);
+        Date todayEvening = DateUtils.addSeconds(DateUtils.addMinutes(DateUtils.addHours(todayMorning, 23), 59), 59);
+        return iCheckInRepo.isCheckinDone(userId, todayMorning, todayEvening);
+    }
+
 
 }
