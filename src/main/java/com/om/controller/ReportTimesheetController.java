@@ -29,7 +29,9 @@ import com.om.model.ReportTimesheetModel;
 import javax.validation.Valid;
 
 @RestController
+
 @RequestMapping(value={"/api/report"})
+@CrossOrigin
 public class ReportTimesheetController {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ICheckOutRepo.class);
 
@@ -37,12 +39,16 @@ public class ReportTimesheetController {
 	private IReportTimesheetService iReportTimesheetService;
 
 	@GetMapping(value={"", "timesheet"})
+	@CrossOrigin
 	public List<ReportTimesheetModel> getAllReportTimeSheet() {
+		System.out.println("getAllReportTimeSheet");
 		return iReportTimesheetService.findAllReport();
 	}
 
 	@GetMapping(value = "timesheet/get")
+	@CrossOrigin
 	public List<ReportTimesheetModel> getReportByDate(@RequestParam("date") Date date) {
+		System.out.println("getReportTimeSheet by date");
 //		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 //		date = new Date("2018/04/17");
 		return iReportTimesheetService.findReportByDate(date);

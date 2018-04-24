@@ -1,16 +1,17 @@
 package com.om.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 public class CheckInModel {
 	private int id;
 	private String note;
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date dateCreated;
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date dateModified;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+	private Date createdDate;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+	private Date modifiedDate;
 	private int userId;
 	
 	public int getUserId() {
@@ -32,16 +33,16 @@ public class CheckInModel {
 		this.note = note;
 	}
 	public Date getDateCreated() {
-		return dateCreated;
+		return createdDate;
 	}
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
+	public void setDateCreated(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 	public Date getDateModified() {
-		return dateModified;
+		return modifiedDate;
 	}
 	public void setDateModified(Date dateModified) {
-		this.dateModified = dateModified;
+		this.modifiedDate = dateModified;
 	}
 
 	@Override
@@ -49,8 +50,8 @@ public class CheckInModel {
 		return "CheckInModel{" +
 				"id=" + id +
 				", note='" + note + '\'' +
-				", dateCreated=" + dateCreated +
-				", dateModified=" + dateModified +
+				", dateCreated=" + createdDate +
+				", dateModified=" + modifiedDate +
 				", userId=" + userId +
 				'}';
 	}

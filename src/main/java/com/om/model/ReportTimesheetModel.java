@@ -9,12 +9,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 public class ReportTimesheetModel {
+	private int userId;
 	private String userName;
 	private long totalMinute;
 	private CheckInEntity checkIn;
 	private CheckOutEntity checkOut;
 
 	public ReportTimesheetModel() {}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getUserName() {
 		return userName;
 	}

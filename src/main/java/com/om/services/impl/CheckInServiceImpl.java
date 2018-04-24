@@ -55,5 +55,10 @@ public class CheckInServiceImpl implements ICheckInService {
         return iCheckInRepo.isCheckinDone(userId, todayMorning, todayEvening);
     }
 
+    @Override
+    public CheckInEntity findCheckInById(int id) {
+        return iCheckInRepo.findById(id);
+    }
+
 
 }

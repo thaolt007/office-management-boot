@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "api/checkin")
 public class CheckInController {
 
@@ -34,23 +35,24 @@ public class CheckInController {
 
     @PostMapping(value = "submit")
     public ResponseEntity<CheckInEntity> saveCheckin(@RequestBody CheckInModel checkinModel) {
-        System.out.println("Checkin post: " + checkinModel.toString());
+        System.out.println("Checkin submit: " + checkinModel.toString());
 
         CheckInEntity checkin = iCheckInService.saveCheckIn(checkinModel);
         if(checkin == null) {
-            return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.OK);
     }
 
     @PostMapping(value = "check/{id}")
+    @CrossOrigin
     public ResponseEntity<CheckInEntity> isCheckinDone(@PathVariable(value = "id") int userId,
                                                        @RequestBody Date date) {
         System.out.println("UserId is checkin or not: " + date);
 //		Date date = new Date("2018/04/17");
         CheckInEntity checkin = iCheckInService.isCheckinDone(userId, date);
         if(checkin == null) {
-            return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<CheckInEntity>(checkin, HttpStatus.OK);
     }

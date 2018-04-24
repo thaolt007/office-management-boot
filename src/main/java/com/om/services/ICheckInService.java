@@ -11,4 +11,5 @@ public interface ICheckInService {
     List<CheckInEntity> findAllCheckIn();
     CheckInEntity saveCheckIn(CheckInModel checkin);
     CheckInEntity isCheckinDone(int userId, Date date);
+    CheckInEntity findCheckInById(int id);
 }

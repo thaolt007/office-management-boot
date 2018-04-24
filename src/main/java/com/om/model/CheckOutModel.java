@@ -1,13 +1,18 @@
 package com.om.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class CheckOutModel {
 	private int id;
 	private String note;
-	private Date dateCreated;
-	private Date dateModified;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+	private Date createdDate;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+	private Date modifiedDate;
 	private int userId;
+	private int checkinId;
 	
 	public int getUserId() {
 		return userId;
@@ -27,16 +32,40 @@ public class CheckOutModel {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public Date getDateCreated() {
-		return dateCreated;
+
+	public Date getCreatedDate() {
+		return createdDate;
 	}
-	public void setDateCreated(Date dateCreated) {
-		this.dateCreated = dateCreated;
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
-	public Date getDateModified() {
-		return dateModified;
+
+	public Date getModifiedDate() {
+		return modifiedDate;
 	}
-	public void setDateModified(Date dateModified) {
-		this.dateModified = dateModified;
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public int getCheckinId() {
+		return checkinId;
+	}
+
+	public void setCheckinId(int checkinId) {
+		this.checkinId = checkinId;
+	}
+
+	@Override
+	public String toString() {
+		return "CheckOutModel{" +
+				"id=" + id +
+				", note='" + note + '\'' +
+				", createdDate=" + createdDate +
+				", modifiedDate=" + modifiedDate +
+				", userId=" + userId +
+				", checkinId=" + checkinId +
+				'}';
 	}
 }

@@ -1,5 +1,6 @@
 package com.om.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -29,9 +30,11 @@ public class CheckOutEntity implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private UserEntity ownerUser;
 
 	@OneToOne(mappedBy = "checkOut")
+	@JsonIgnore
 	private CheckInEntity checkIn;
 
 

@@ -45,6 +45,8 @@ public class ReportTimesheetServiceImpl implements IReportTimesheetService {
 		for(CheckInEntity checkin : listCheckIn) {
 			ReportTimesheetModel reportTimesheet = new ReportTimesheetModel();
 
+			//user id
+			reportTimesheet.setUserId(checkin.getOwnerUser().getId());
 			//user name
 			reportTimesheet.setUserName(checkin.getOwnerUser().getUserName());
 
